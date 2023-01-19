@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="relative bottom-0">
     <div class="flex gap-2 justify-center mt-10 text-gray-200">
       Made by
 

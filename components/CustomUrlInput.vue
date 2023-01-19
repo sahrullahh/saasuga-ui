@@ -4,7 +4,7 @@
       <i class="bi bi-pin"></i> Custom your url here
     </h2>
     <div class="input-box-url bg-gray-100 text-gray-500 border rounded-md flex">
-      <label for="" class="pl-4 pt-3">sasu.ga/</label>
+      <label for="" class="pl-4 pt-3">saasu.ga/</label>
       <input
         type="text"
         autocomplete="off"

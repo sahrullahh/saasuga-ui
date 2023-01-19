@@ -4,7 +4,7 @@ export default {
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
-    title: "sasuga-ui",
+    titleTemplate: "%s",
     htmlAttrs: {
       lang: "id",
     },
@@ -16,7 +16,7 @@ export default {
       { name: "format-detection", content: "telephone=no" },
     ],
     link: [
-      { rel: "icon", type: "image/x-icon", href: "/favicon.ico" },
+      { rel: "icon", type: "image/x-icon", href: "/logo/saasuga.svg" },
       {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap",
@@ -56,7 +56,16 @@ export default {
     // https://go.nuxtjs.dev/axios
     "@nuxtjs/sitemap",
     "@nuxtjs/axios",
+    "@nuxtjs/auth",
   ],
+  // auth: {
+  //   strategies: {
+  //     google: {
+  //       clientId: "...",
+  //     },
+  //   },
+  // },
+
   // setup tailwind
   tailwindcss: {
     cssPath: "~/assets/css/tailwind.css",
@@ -69,9 +78,14 @@ export default {
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {
     // Workaround to avoid enforcing hard-coded localhost:3000: https://github.com/nuxt-community/axios-module/issues/308
-    baseURL: process.env.API_ORIGIN_LOCALLY || "/",
+    baseURL: process.env.BASE_URL || "https://backend-dev.saasu.ga/api",
   },
-
+  publicRuntimeConfig: {
+    baseURL: process.env.BASE_URL || "https://backend-dev.saasu.ga/api",
+  },
+  // router: {
+  //   middleware: ["auth"],
+  // },
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {},
 };
