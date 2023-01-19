@@ -15,6 +15,7 @@ module.exports = {
       },
       colors: {
         primary: "#001E26",
+        "primary-dark": " #002833",
         github: "#24292E",
       },
     },

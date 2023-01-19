@@ -14,7 +14,7 @@
           <h2 class="pl-3 font-bold text-2xl text-gray-200">Saasuga.</h2>
         </div>
       </a>
-      <div class="flex gap-5">
+      <div class="flex gap-5 text-sm">
         <button
           v-if="!inLogin"
           @click="pushTo('/login')"
@@ -24,7 +24,7 @@
         </button>
         <button
           @click="pushTo('/login')"
-          class="px-4 border hover:bg-gray-800 border-gray-800 flex rounded-md py-2"
+          class="px-4 border hover:bg-primary-dark border-primary-dark flex rounded-md py-2"
         >
           <span class="text-white">Sign Up</span>
           <span class="text-gray-500 ml-4">
