@@ -1,5 +1,6 @@
 <script>
 export default {
+  auth: false,
   loading: {
     color: "green",
     height: "5px",
@@ -29,7 +30,10 @@ export default {
     async auth(url) {
       try {
         const res = await this.$axios.get(url);
-        window.location.href = res.data.data.redirect_url;
+        const redirect = res.data.data.redirect_url;
+        window.location.href = redirect;
+        // window.openr(redirect);
+        // console.log(res);
         this.isError = false;
       } catch (e) {
         console.log(e);

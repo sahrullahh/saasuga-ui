@@ -58,14 +58,32 @@ export default {
     "@nuxtjs/axios",
     "@nuxtjs/auth",
   ],
-  // auth: {
-  //   strategies: {
-  //     google: {
-  //       clientId: "...",
-  //     },
-  //   },
-  // },
+  auth: {
+    strategies: {
+      local: {
+        endpoints: {
+          login: {
+            url: "/login/google",
+            method: "post",
+            propertyName: "code",
+          },
+          user: { url: "me", method: "get", propertyName: "data" },
+          logout: {
+            method: "get",
+            url: "",
+          },
+        },
+      },
+      redirect: {
+        login: "/login",
+        home: "/",
+      },
+    },
+  },
 
+  // router: {
+  //   middleware: ["auth"],
+  // },
   // setup tailwind
   tailwindcss: {
     cssPath: "~/assets/css/tailwind.css",
@@ -87,5 +105,7 @@ export default {
   //   middleware: ["auth"],
   // },
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    extend(config, ctx) {},
+  },
 };

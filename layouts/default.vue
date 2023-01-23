@@ -4,3 +4,9 @@
     <Nuxt />
   </div>
 </template>
+
+<style>
+body {
+  background-color: #001e26;
+}
+</style>

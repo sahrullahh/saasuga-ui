@@ -1,6 +1,7 @@
 <script>
 import CustomUrlInput from "~/components/CustomUrlInput.vue";
 export default {
+  auth: "guest",
   components: { CustomUrlInput },
   name: "Home",
   // method data for define variable
