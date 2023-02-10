@@ -1,5 +1,6 @@
 <script>
 import CustomUrlInput from "~/components/CustomUrlInput.vue";
+import { currentColors } from "../helpers/background.js";
 export default {
   auth: "guest",
   components: { CustomUrlInput },
@@ -10,6 +11,7 @@ export default {
       url: "",
       generate: true,
       alert: false,
+
       alertMessage: "",
       seo: {
         title: "Saasuga",
@@ -64,6 +66,12 @@ export default {
 
   // action methods execution
   methods: {
+    currentColors,
+    init() {
+      this.currentColors(
+        "radial-gradient(circle at top, rgba(11,71,50,1) 0%, rgba(34,70,47,1) 0%, rgba(0,30,38,1) 35%, rgba(0,30,38,1) 100%)"
+      );
+    },
     submit: function (url) {
       if (url.includes("https://") || url.includes("http://")) {
         this.alert = false;
@@ -84,6 +92,7 @@ export default {
     },
   },
   mounted() {
+    this.init();
     this.$store.commit("navbar/inLogin", false);
   },
 };
@@ -95,7 +104,7 @@ export default {
         <h2 class="font-bold tracking-tighter text-gray-200 text-5xl max-w-2xl">
           Make your url short easily and quickly to accessable
         </h2>
-        <p class="text-lg font-semibold text-gray-300">
+        <p class="text-lg font-semibold text-gray-100 font-raleway">
           Make your url as many people expect, Try now for free forever.
         </p>
       </div>
@@ -105,8 +114,8 @@ export default {
           <button
             @click="setActive(true)"
             :class="{
-              'text-green-800 bg-white': generate,
-              ' bg-gray-100 ': !generate,
+              'text-green-800 bg-[#EEEEEE]': generate,
+              ' bg-gray-300': !generate,
             }"
             class="px-4 py-3 text-gray-500 rounded-md rounded-br-none rounded-bl-none"
           >
@@ -122,8 +131,8 @@ export default {
           <button
             @click="setActive(false)"
             :class="{
-              'text-green-800 bg-white ': !generate,
-              ' bg-gray-100 ': generate,
+              'text-green-800 bg-[#EEEEEE] ': !generate,
+              ' bg-gray-300 ': generate,
             }"
             class="px-4 py-3 text-gray-500 rounded-md rounded-br-none rounded-bl-none"
           >
@@ -136,7 +145,7 @@ export default {
         </div>
 
         <div
-          class="box transition-all rounded-tl-none bg-white shadow border border-t-0 w-full text-left space-y-5 p-5 rounded-md pb-7"
+          class="box transition-all rounded-tl-none bg-[#EEEEEE] shadow border border-t-0 w-full text-left space-y-5 p-5 rounded-md pb-7"
         >
           <div class="space-y-5">
             <h2 class="font-semibold text-gray-500">
@@ -148,7 +157,7 @@ export default {
                 type="url"
                 v-model="url"
                 autocomplete="off"
-                class="w-full p-3 border text-green-500 bg-gray-100 font-semibold outline-none rounded-md"
+                class="w-full p-3 border text-green-500 bg-white font-semibold outline-none rounded-md"
                 placeholder=""
                 pattern="https://.*"
               />
@@ -170,3 +179,8 @@ export default {
     <Footer title="Saasuga" />
   </div>
 </template>
+<style>
+body {
+  height: 100vh;
+}
+</style>

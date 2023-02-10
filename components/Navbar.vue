@@ -1,7 +1,6 @@
 <template>
   <div
     class="navbar w-full p-3 sticky top-0"
-    v-if="visible"
     :class="{ 'border-b border-gray-800': inLogin }"
   >
     <div class="container max-w-6xl mx-auto flex justify-between">
@@ -11,10 +10,10 @@
             <img src="/logo/saasuga.svg" class="w-7" alt="" />
           </span>
 
-          <h2 class="pl-3 font-bold text-2xl text-gray-200">Saasuga.</h2>
+          <h2 class="pl-3 font-semibold text-2xl text-gray-200">Saasuga.</h2>
         </div>
       </a>
-      <div class="flex gap-5 text-sm">
+      <div class="flex gap-5 text-sm" v-if="!this.$auth.loggedIn">
         <button
           v-if="!inLogin"
           @click="pushTo('/login')"
@@ -43,6 +42,9 @@
           </span>
         </button>
       </div>
+      <div v-else class="text-white mt-2">
+        Logged as {{ this.$auth.user.name }}
+      </div>
     </div>
   </div>
 </template>
@@ -50,9 +52,6 @@
 <script>
 export default {
   computed: {
-    visible() {
-      return this.$store.state.navbar.visible;
-    },
     inLogin() {
       return this.$store.state.navbar.log;
     },

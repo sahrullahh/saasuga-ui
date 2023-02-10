@@ -1,6 +1,5 @@
 export default {
   // Target: https://go.nuxtjs.dev/config-target
-  target: "static",
 
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -21,6 +20,10 @@ export default {
         rel: "stylesheet",
         href: "https://fonts.googleapis.com/css2?family=Lexend:wght@400;500;600;700&display=swap",
       },
+      {
+        rel: "stylesheet",
+        href: "https://fonts.googleapis.com/css2?family=Raleway:wght@100;200;300;400;500;600;700;800;900&display=swap",
+      },
     ],
   },
 
@@ -28,7 +31,10 @@ export default {
   css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [{ src: "~/plugins/bootstrap-icons.js", mode: "client" }],
+  plugins: [
+    { src: "~/plugins/bootstrap-icons.js", mode: "client" },
+    { src: "~/plugins/global.js", mode: "client" },
+  ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -62,28 +68,30 @@ export default {
     strategies: {
       local: {
         endpoints: {
-          login: {
-            url: "/login/google",
-            method: "post",
-            propertyName: "code",
+          token: {
+            type: "Bearer",
+            property: "token",
           },
-          user: { url: "me", method: "get", propertyName: "data" },
-          logout: {
+          login: {
+            url: "/user",
             method: "get",
-            url: "",
+            propertyName: "token",
+          },
+          user: { url: "/user", method: "get", propertyName: "data" },
+          logout: {
+            method: "delete",
+            url: "/user",
           },
         },
       },
       redirect: {
         login: "/login",
+        logout: "/",
         home: "/",
       },
     },
   },
 
-  // router: {
-  //   middleware: ["auth"],
-  // },
   // setup tailwind
   tailwindcss: {
     cssPath: "~/assets/css/tailwind.css",
@@ -101,9 +109,7 @@ export default {
   publicRuntimeConfig: {
     baseURL: process.env.BASE_URL || "https://backend-dev.saasu.ga/api",
   },
-  // router: {
-  //   middleware: ["auth"],
-  // },
+
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     extend(config, ctx) {},

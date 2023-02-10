@@ -12,6 +12,7 @@ module.exports = {
       // font-famlily globally
       fontFamily: {
         lexend: '"lexend", sans-serif',
+        raleway: '"Raleway", sans-serif',
       },
       colors: {
         primary: "#001E26",

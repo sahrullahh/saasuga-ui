@@ -1,4 +1,5 @@
 <script>
+import { currentColors } from "../helpers/background.js";
 export default {
   auth: false,
   loading: {
@@ -32,8 +33,6 @@ export default {
         const res = await this.$axios.get(url);
         const redirect = res.data.data.redirect_url;
         window.location.href = redirect;
-        // window.openr(redirect);
-        // console.log(res);
         this.isError = false;
       } catch (e) {
         console.log(e);
@@ -42,9 +41,15 @@ export default {
         this.count++;
       }
     },
+    currentColors,
+    init() {
+      this.currentColors("#001e26");
+    },
   },
+
   mounted() {
     this.$store.commit("navbar/inLogin", true);
+    this.init();
   },
 };
 </script>

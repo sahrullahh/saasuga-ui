@@ -4,38 +4,57 @@ export default {
 
   data() {
     return {
-      code: "",
-      msg: "",
+      token: "",
+      provider: "",
+      alertMessage: "",
       error: false,
+      title: "Redirecting...",
     };
   },
+
+  head() {
+    return {
+      title: this.title,
+    };
+  },
+
   methods: {
-    async getAuthWithToken() {
-      this.code = !this.$route.query.code ? null : this.$route.query.code;
-      if (!this.code) {
-        this.$router.push("/login");
-      }
-      try {
-        let response = await this.$auth.loginWith("local", {
-          code: this.code,
-        });
-        this.error = false;
-      } catch (err) {
-        console.log(err);
-        this.error = true;
-        this.msg = err;
-      }
+    redirect() {
+      window.location.href = "/dashboard";
+    },
+    getAuthWithToken() {
+      setTimeout(() => {
+        const token = !this.$route.query.token ? null : this.$route.query.token;
+
+        this.token = encodeURI(token);
+
+        if (this.token) {
+          try {
+            this.$auth.setToken("local", "Bearer " + this.token);
+            this.$auth.setStrategy("local");
+            this.error = false;
+            this.redirect();
+          } catch (err) {
+            console.log(err);
+            this.error = true;
+            this.alertMessage = err;
+          }
+        } else {
+        }
+      }, 1800);
     },
   },
-  async mounted() {
-    await this.getAuthWithToken();
+
+  mounted() {
+    this.getAuthWithToken();
     this.$store.commit("navbar/visible", false);
   },
 };
 </script>
+<!-- template -->
 <template>
   <div>
-    <div class="max-w-2xl mx-auto p-10 text-white text-center mt-40">
+    <div class="max-w-2xl mx-auto p-10 text-white text-center mt-40 h-screen">
       <div v-if="!error" class="flex gap-5">
         <svg
           aria-hidden="true"
@@ -58,7 +77,7 @@ export default {
       </div>
       <div v-else>
         <h2>Failed to redirect because</h2>
-        <h2>{{ msg }}</h2>
+        <h2>{{ alertMessage }}</h2>
       </div>
     </div>
   </div>

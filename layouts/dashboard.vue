@@ -1,23 +1,23 @@
 <template>
   <div class="app font-lexend">
-    <div class="flex">
-      <div class="flex-none">
-        <Nuxt />
-      </div>
-      <div class="flex-auto">
-        <DashboardSidebarWrapper />
-      </div>
-      <div v-if="$auth.loggedIn">Welcome {{ $auth.user.email }}</div>
+    <DashboardNavbar />
+    <div class="container max-w-7xl mx-auto gap-5 p-5 text-white">
+      <Nuxt />
     </div>
   </div>
 </template>
 
 <script>
-export default {};
+import { currentColors } from "../helpers/background.js";
+export default {
+  methods: {
+    currentColors,
+    init() {
+      this.currentColors("#eee");
+    },
+  },
+  mounted() {
+    this.init();
+  },
+};
 </script>
-
-<style>
-body {
-  background-color: #dcdcdc;
-}
-</style>
