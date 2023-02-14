@@ -9,7 +9,9 @@ export default {
       updateForm: false,
       formVisible: false,
       updateId: "",
+      deleteId: "",
       alert: false,
+      alertDelete: false,
       alertMessage: "",
       form: {
         title: "",
@@ -19,9 +21,12 @@ export default {
     };
   },
 
+  // fetch data url from api
   async fetch() {
     await this.getData();
   },
+
+  // meta tags
 
   head() {
     return {
@@ -30,17 +35,26 @@ export default {
   },
 
   methods: {
+    // method on modal delete active
+    deleteClick(id) {
+      this.alertDelete = !this.alertDelete;
+      this.deleteId = id;
+    },
+
+    // action delete data api
     async deleteData(id) {
       try {
-        this.$axios.delete("/urls/" + id);
+        await this.$axios.delete("/urls/" + id);
         await this.$fetch();
+        this.alertDelete = false;
       } catch (e) {
         console.error(e);
       }
     },
+    // action post data api
     async post() {
       try {
-        this.$axios.post("/urls", {
+        await this.$axios.post("/urls", {
           title: this.form.title,
           destination: this.form.destination,
           keyword: this.form.keyword,
@@ -56,6 +70,7 @@ export default {
         console.error(e);
       }
     },
+    // action put data api
     async update() {
       try {
         await this.$axios.put("/urls/" + this.updateId, {
@@ -74,6 +89,7 @@ export default {
         console.error(e);
       }
     },
+    // method get data for any update
     changeData(id, title, keyword, destination) {
       this.updateForm = true;
       this.formVisible = true;
@@ -85,9 +101,9 @@ export default {
         destination,
       };
     },
+    // method on create data when modal visible
     createData() {
       this.updateForm = false;
-
       this.formVisible = true;
       this.alert = false;
       this.form = {
@@ -96,6 +112,7 @@ export default {
         keyword: "",
       };
     },
+    // to submit all done data
     async submitForm() {
       if (!this.updateForm) {
         if (
@@ -154,28 +171,38 @@ export default {
   <div>
     <DashboardHead />
     <transition name="modal" mode="out-in">
+      <alertDelete
+        v-show="alertDelete"
+        @confirm="deleteData(deleteId)"
+        @cancel="deleteClick"
+      />
+    </transition>
+    <transition name="modal" mode="out-in">
       <div
         v-show="formVisible"
         class="w-full bg-black/20 text-gray-700 h-screen fixed z-10 top-0 left-0"
       >
-        <div
-          class="max-w-3xl divide-y divide-gray-100 mx-auto bg-white mt-10 rounded-md"
-        >
+        <div class="max-w-3xl p-3 mx-auto bg-white mt-10 rounded-md">
           <div class="p-4">
             <h2 class="font-semibold tracking-tighter text-2xl">
               {{
-                !updateForm
-                  ? "Create new shorten url"
-                  : "Change your shorten url"
+                !updateForm ? "Create new short url" : "Change your shorten url"
               }}
             </h2>
+            <p class="text-gray-400 mt-2">
+              {{
+                !updateForm
+                  ? "Convert your long url to tiny, so it's easy to remember by staying on the click, and stored safely"
+                  : "You can update item title, keyword or destination."
+              }}
+            </p>
           </div>
           <form @submit.prevent="submitForm">
-            <div class="p-5 pb-10">
+            <div class="pl-5 pr-5 pb-10">
               <div class="body mt-5 space-y-5">
                 <div class="space-y-4">
                   <label for="title"
-                    >Url Title <span class="text-pink-500">*</span></label
+                    >Title <span class="text-pink-500">*</span></label
                   >
                   <input
                     type="text"
@@ -185,7 +212,7 @@ export default {
                 </div>
                 <div class="space-y-4">
                   <label for="title"
-                    >Paste long url here.
+                    >Paste long url destination here.
                     <span class="text-pink-500">*</span></label
                   >
 
@@ -200,8 +227,7 @@ export default {
                 </div>
                 <div class="space-y-4">
                   <label for="title"
-                    >Your url shorten
-                    <span class="text-pink-500">*</span></label
+                    >Keyword url <span class="text-pink-500">*</span></label
                   >
                   <div
                     class="input-box-url bg-white text-gray-500 border rounded-md flex"
@@ -211,27 +237,29 @@ export default {
                       type="text"
                       v-model="form.keyword"
                       autocomplete="off"
-                      class="w-full p-3 pl-0 bg-white placeholder-gray-300 focus:placeholder-green-500 text-green-500 font-semibold outline-none rounded-md"
+                      class="w-full p-3 pl-0 bg-white placeholder-gray-300 focus:placeholder-green-500 text-primary font-medium outline-none rounded-md"
                       placeholder="alias"
                     />
                   </div>
                 </div>
               </div>
             </div>
-            <div class="p-4">
-              <button
-                type="submit"
-                class="bg-green-500 px-5 py-3 rounded-md text-white hover:bg-green-600"
-              >
-                {{ !updateForm ? "Create, url shorten" : "Save changes " }}
-              </button>
-              <button
-                type="button"
-                @click="formVisible = false"
-                class="bg-red-500 px-5 py-3 rounded-md text-white hover:bg-red-600"
-              >
-                Close
-              </button>
+            <div class="p-4 flex justify-end">
+              <div>
+                <button
+                  type="button"
+                  @click="formVisible = false"
+                  class="bg-gray-100 px-5 py-3 rounded-md text-gray-800 hover:bg-gray-200"
+                >
+                  Close
+                </button>
+                <button
+                  type="submit"
+                  class="bg-primary 0 px-5 py-3 rounded-md text-white hover:bg-gray-700"
+                >
+                  {{ !updateForm ? "Create, url shorten" : "Save changes " }}
+                </button>
+              </div>
             </div>
           </form>
         </div>
@@ -256,7 +284,7 @@ export default {
     <div class="mt-8 space-y-8">
       <button
         @click="createData"
-        class="bg-green-500 px-5 py-3 rounded-md text-white hover:bg-green-600"
+        class="bg-primary px-5 py-3 rounded-md text-white hover:bg-gray-700"
       >
         Create new
       </button>
@@ -275,7 +303,7 @@ export default {
         <div>
           <ul class="text-gray-500 space-y-3">
             <li>
-              <button @click="deleteData(item.id)" title="delete this item">
+              <button @click="deleteClick(item.id)" title="delete this item">
                 <i class="bi bi-trash text-red-500"></i>
               </button>
             </li>
@@ -290,7 +318,7 @@ export default {
                     item.destination
                   )
                 "
-                title="delete this item"
+                title="update this item"
               >
                 <i class="bi bi-pencil"></i>
               </button>

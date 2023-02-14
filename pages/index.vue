@@ -128,20 +128,6 @@ export default {
               > -->
             </span>
           </button>
-          <button
-            @click="setActive(false)"
-            :class="{
-              'text-green-800 bg-[#EEEEEE] ': !generate,
-              ' bg-gray-300 ': generate,
-            }"
-            class="px-4 py-3 text-gray-500 rounded-md rounded-br-none rounded-bl-none"
-          >
-            Customize url
-            <!-- <span
-              class="bg-yellow-200 rounded-md p-2 text-xs text-green-800 ml-3"
-              >Free 1 month</span
-            > -->
-          </button>
         </div>
 
         <div
@@ -165,7 +151,7 @@ export default {
             <Alert :message="alertMessage" v-show="alert" />
           </div>
           <!-- custom input components -->
-          <CustomUrlInput v-if="!generate" />
+
           <button
             @click="submit(url)"
             class="bg-green-300 shadow-lg shadow-green-300/50 px-5 py-3 rounded-md text-green-800"

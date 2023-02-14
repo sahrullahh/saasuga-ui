@@ -44,6 +44,9 @@ export default {
     currentColors,
     init() {
       this.currentColors("#001e26");
+      if (this.$auth.loggedIn) {
+        this.$router.push("/dashboard");
+      }
     },
   },
 
