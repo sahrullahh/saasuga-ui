@@ -2,7 +2,9 @@
   <div class="app font-lexend">
     <Navbar />
     <div class="p-5">
-      <Nuxt />
+      <transition name="layout" mode="out-in">
+        <Nuxt />
+      </transition>
     </div>
   </div>
 </template>
@@ -23,8 +25,17 @@ export default {
   },
 };
 </script>
-<style scoped>
+<style>
 body {
   height: 100vh;
+}
+.layout-enter-active,
+.layout-leave-active {
+  transition: all 0.5s;
+}
+.layout-enter,
+.layout-leave-active {
+  transform: translateY(12px);
+  opacity: 0;
 }
 </style>

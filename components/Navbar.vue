@@ -4,7 +4,7 @@
     :class="{ 'border-b border-gray-800': inLogin }"
   >
     <div class="container max-w-6xl mx-auto flex justify-between">
-      <a href="/">
+      <a @click="$router.push('/')" class="cursor-pointer">
         <div class="w-full flex mt-1">
           <span class="text-green-400">
             <img src="/logo/saasuga.svg" class="w-7" alt="" />
@@ -42,8 +42,14 @@
           </span>
         </button>
       </div>
-      <div v-else class="text-white mt-2">
-        Logged as {{ this.$auth.user.name }}
+      <div v-else class="text-white mt-1 flex gap-5">
+        <button @click="$router.push('/dashboard')">Go to Dashboard</button>
+        <img
+          :title="this.$auth.user.name"
+          :src="`https://ui-avatars.com/api/?name=${this.$auth.user.name}&bold=true&background=random&format=svg`"
+          class="w-10 rounded-full"
+          alt="avatar user"
+        />
       </div>
     </div>
   </div>
